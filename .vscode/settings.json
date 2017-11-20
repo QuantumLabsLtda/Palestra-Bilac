@@ -1,5 +1,5 @@
-// {
-//     "workbench.colorCustomizations": {
-//        "editor.background": "#191919"
-//     }
-// }
+{
+    "workbench.colorCustomizations": {
+       "editor.background": "#191919"
+    }
+}
