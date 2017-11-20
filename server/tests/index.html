@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title>Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+</head>
+
+<body>
+
+    <script>
+        var socket = io('http://localhost:3000');
+
+        function addUser(username) {
+            socket.emit('addUser', username);
+        }
+
+        function newMessage(message) {
+            socket.emit('newMessage', message)
+        }
+
+        function simuleTyping() {
+            socket.emit('typing');
+            window.setTimeout(function () {
+                socket.emit('stopTyping');
+                socket.emit('typing');
+            }, 1000);
+            window.setTimeout(function () {
+                socket.emit('stopTyping');
+            }, 3000);
+
+        }
+
+        socket.on('newUser', (data) => {
+            console.log(data.username + ' entrou na sala.')
+        })
+
+        socket.on('userLeft', (data) => {
+            console.log(data.username + ' saiu da sala.')
+        })
+
+        socket.on('newMessage', (data) => {
+            console.log(`${data.username}: ${data.message}`)
+        })
+
+        socket.on('typing', (data) => {
+            console.log(`${data.username} está digitando.`)
+        })
+
+        socket.on('stopTyping', (data) => {
+            console.log(`${data.username} parou de digitar.`)
+        })
+    </script>
+</body>
+
+</html>
