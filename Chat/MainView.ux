@@ -1,0 +1,81 @@
+<App>
+    <JavaScript File="./Main.js"/>
+    <iOS.StatusBarConfig Style="Light" />
+	<Android.StatusBarConfig Color="#000" />
+    <ClientPanel>
+        <DockPanel>
+            <Rectangle ux:Class="chat.messageBox" MaxWidth="90%" MinHeight="50" Color="#00b0ff" CornerRadius="10">
+                <string ux:Property="Message" />
+                <string ux:Property="Owner" />
+                <WhileString Value="{ReadProperty Owner}" Equals="sender">
+                    <Change this.Color="#FF000060"/>
+                    <Change messageText.TextColor="#FFF"/>
+                </WhileString>
+                <WhileString Value="{ReadProperty Owner}" Equals="receiver">
+                    <Change this.Color="#CCC"/>
+                    <Change messageText.TextColor="#FFF"/>
+                </WhileString>
+                <WhileString Value="{ReadProperty Owner}" Equals="newUser">
+                    <Change this.Color="#FFF"/>
+                    <Change this.MinHeight="10"/>
+                    <Change messageText.Alignment="Center"/>
+                    <Change messageText.TextColor="#222"/>
+                </WhileString>
+                <Text ux:Name="messageText" Value="{ReadProperty Message}" Alignment="CenterLeft" Margin="10,0,0,0"/>
+            </Rectangle>
+            <!-- HEADER -->
+            <Panel Dock="Top" Height="50" Width="100%" Color="#FF000060">
+                <Image File="./Assets/logo_bilac.png" Alignment="Center" Height="35"/>
+            </Panel>
+            <!-- MESSAGE SCROLLVIEW -->
+            <ScrollView Height="84%" Alignment="Top" Margin="0,0,0,0" Padding="0,0,0,20">
+                <StackPanel Orientation="Vertical" Alignment="Bottom" ItemSpacing="5" Width="100%">
+                    <Each Items="{mensagens}">
+                        <chat.messageBox Message="{text}" Owner="{owner}"/>
+                    </Each>
+                </StackPanel>
+            </ScrollView>
+            <!-- INPUT MESSAGE -->
+            <Panel Dock="Bottom" Layer="Overlay" Alignment="Bottom" Background="#FFF">
+                <WhileTrue Value="{typing}">
+                    <Change typingText.Opacity="1" Duration="0.2"/>
+                </WhileTrue>
+                <Text ux:Name="typingText"  Value="{typingUser} está digitando..." Opacity="0" Alignment="TopCenter" Margin="0,-10,0,0" FontSize="12"/>
+                <Rectangle  Height="40" Width="83%" Alignment="CenterLeft" Color="#FFF" CornerRadius="25" Margin="10,10,0,10">
+                    <Stroke Color="#CCC" Width="1"/>
+                    <TextInput PlaceholderText="Digite uma mensagem..." KeyPressed="{isTyping}" Value="{textMensagem}" Width="90%" Height="90%"/>
+                    <Rectangle Height="1" Width="90%" Color="#CCC" Layer="Overlay" Alignment="Bottom" Margin="0,0,0,6"/>
+                </Rectangle>
+                <Circle Height="40" Width="40" Color="#FF000060" Alignment="CenterRight" Margin="0,0,10,0">
+                    <Image File="./Assets/send.png" Height="25" Margin="-3,0,0,0"/>
+                    <WhilePressed>
+                        <Scale Factor="0.9" Duration="0.2"/>
+                    </WhilePressed>
+                    <Clicked>
+                        <Callback Handler="{sendMessage}"/>
+                    </Clicked>
+                </Circle>
+            </Panel>
+        </DockPanel>
+        <Rectangle ux:Name="modal"  Layer="Overlay" Color="#0008">
+            <WhileFalse Value="{modal}">
+                <Change modal.Opacity="0" Duration="0.3"/>
+                <Change modal.Visibility="Collapsed"/>
+            </WhileFalse>
+            <Rectangle Height="150" Width="95%" Alignment="Center" Layer="Overlay" Color="#FFF" CornerRadius="10">
+                <StackPanel Orientation="Vertical" Alignment="Center" Width="100%">
+                    <Panel Alignment="CenterLeft" Width="100%">
+                        <TextInput PlaceholderText="Digite seu nome..." Value="{nomeUsuario}" Width="90%" Height="40"/>
+                        <Rectangle Height="1" Width="90%" Color="#CCC" Layer="Overlay" Alignment="Bottom" Margin="0,30,0,6"/>
+                    </Panel>
+                    <Rectangle Height="40" Width="50%" Color="#FF000060" CornerRadius="5" Margin="0,20,0,0" Clicked="{login}">
+                        <WhilePressed>
+                            <Scale Factor="0.95" Duration="0.3"/>
+                        </WhilePressed>
+                        <Text Value="ENTRAR" TextColor="#FFF" Alignment="Center"/>
+                    </Rectangle>
+                </StackPanel>
+            </Rectangle>
+        </Rectangle>
+    </ClientPanel>
+</App>
