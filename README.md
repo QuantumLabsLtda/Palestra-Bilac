@@ -1,1 +1,14 @@
-Chat - Bilac
+# Palestra - Chat utilizando Node.js e Fuse
+
+## Build Setup NODE
+
+``` bash
+# navegar ate o diretorio
+cd server
+
+# instalar dependencias
+npm install
+
+# rodar o servidoer
+node app.js
+```
