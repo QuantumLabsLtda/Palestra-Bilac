@@ -16,6 +16,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('addUser', (username) => {
+        console.log(username)
         // Armazena o nome do Usuário na sessão `socket`
         socket.username = username;
         // Aumenta o Número de Usuários da Sala
