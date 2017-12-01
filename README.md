@@ -9,6 +9,6 @@ cd server
 # instalar dependencias
 npm install
 
-# rodar o servidoer
+# rodar o servidor
 node app.js
 ```
